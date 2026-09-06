@@ -12,32 +12,30 @@ import {
 import {ReRecordSoundForm} from "./UseReRecordSoundForm"
 import { useDashboardContext } from "../general/DashboardContext"
 
+import * as React from "react"
+
 type ReRecordSoundDialogProps = {
-  open: boolean
-  onOpenChange: (open: boolean) => void
-  showTrigger?: boolean
-  deviceID: number
-  SoundID: number
-  deviceSerialNumber: string
+    showTrigger?: boolean
+    deviceID: number
+    SoundID: number
+    deviceSerialNumber: string
 }
 
 
 export function UseDialogReRecordSound({
-  open,
-  onOpenChange,
   showTrigger = true,
   deviceID,
   SoundID,
   deviceSerialNumber,
 }: ReRecordSoundDialogProps)
-{  
+{  const [open, setOpen] = React.useState(false)
   const { refreshSounds } = useDashboardContext()
   function handleSoundAdded(){
-    onOpenChange(false)
+    setOpen(false)
     refreshSounds()
   }
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={setOpen}>
         {showTrigger && (
           <DialogTrigger
           render={

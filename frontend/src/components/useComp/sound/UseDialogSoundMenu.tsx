@@ -27,6 +27,8 @@ import { toast } from "sonner"
 
 import type { Sound } from "@/components/useComp/sound/UseSoundCard"
 import { AlertDialogSoundDelete } from "@/components/useComp/sound/UseDialogDeleteSound"
+import { UseDialogReRecordSound } from "@/components/useComp/sound/UseDialogReRecording"
+
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL
 
@@ -36,6 +38,7 @@ type DialogSoundFormProps = {
   sound: Sound | null
   onDeleteSuccess: (soundID: number) => void
   onUpdateSuccess: () => void
+  deviceSerialNumber: string
 }
 
 const formSchema = z.object({
@@ -51,6 +54,7 @@ export function DialogSoundForm({
   sound,
   onDeleteSuccess,
   onUpdateSuccess,
+  deviceSerialNumber,
 
 }: DialogSoundFormProps) {
   const [soundName, setSoundName] = React.useState("")
@@ -162,7 +166,7 @@ export function DialogSoundForm({
       <DialogContent className="sm:max-w-sm">
         <DialogHeader>
           <DialogTitle>
-            Sound Settings
+            {soundName} Settings
           </DialogTitle>
 
           <DialogDescription>
@@ -201,21 +205,14 @@ export function DialogSoundForm({
           </FieldGroup>
 
 
-          <Button type="submit">
-            Update Sound Name
-          </Button>
+          <UseDialogReRecordSound 
+            SoundID={sound.id}
+            deviceID={sound.device_id}
+            deviceSerialNumber={deviceSerialNumber}
+
+          />
 
           <FieldGroup>
-            <Field>
-              <Button
-                type="button"
-                variant="outline"
-                disabled
-              >
-                Record Sound Again
-              </Button>
-            </Field>
-
             <Field>
               <AlertDialogSoundDelete
                 sound={sound}
